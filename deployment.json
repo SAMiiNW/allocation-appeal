@@ -1,1 +1,17 @@
-{"network":"StudioNet","contractAddress":"0x3CFdB6e2b30Fe58e9dBc69A1149CD545bfae0A88","deploymentTransaction":"0x7ad1070fb54628536f0d3926d63bd80e072d63712a07c18065d418d111e1838b","liveSmokeTransaction":"0xbee25141fe1dad26825320275a45f856fee54a610c0307f5d9fe0a5bc2281d81","sourceCommit":"90e8958","status":"FINALIZED","result":"MAJORITY_AGREE"}
+{
+  "network": "StudioNet",
+  "contractAddress": "0xdbCb434bb043C739344417bb4f0E2a965BB7922b",
+  "deploymentTransaction": "0x0b72dd30651a1f19df4c6ac82be09257df81949a504464254decab256d54ee08",
+  "sourceCommit": "32fa5aaa1ee8195097e7b9d6f0c93444cb02b961",
+  "contractSha256": "9a216c729fb00c2c447be6a0ee64de83cd6ec111e2a6b08dd45113b03bf593ed",
+  "deployer": "ACCOUNT_1 / SAMiiNW",
+  "receiptStatus": "FINALIZED",
+  "execution": "SUCCESS",
+  "liveCaseId": "AA-1789399075",
+  "liveTransactions": {
+    "file": "0x0972002782f47ebc27c0aff676e761cc70d9cfcdc4607c68043e091cbea3d6b7",
+    "score": "0xfc6a4e4972034306d7baa832683f9efd95b2dfe920c919c7dbab2767cb7896ea",
+    "appeal": "0x99a97c7a9ad8b31091a64eb9c54de0b0013b56a9963dadc9f65c9d14b69a109a"
+  },
+  "liveResult": "MAJORITY_AGREE / APPEALED / deadline unchanged after appeal"
+}

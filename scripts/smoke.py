@@ -22,7 +22,7 @@ def send(method, args):
     )
     info = CLIENT.get_transaction(transaction_hash=tx)
     receipts = (info.get("consensus_data") or {}).get("leader_receipt") or []
-    if info.get("status_name") != "FINALIZED" or not any(
+    if info.get("status_name") != "FINALIZED" or info.get("result_name") != "MAJORITY_AGREE" or not any(
         item.get("execution_result") == "SUCCESS" for item in receipts
     ):
         raise RuntimeError({"tx": tx, "status": info.get("status_name"), "receipts": receipts})
@@ -35,10 +35,10 @@ filed = send(
     [
         case_id,
         ACCOUNT.address,
-        "https://www.rfc-editor.org/rfc/rfc9110.txt",
-        "Allocate review credit for a standards analysis that identifies the protocol and links corroborating public references.",
-        "https://datatracker.ietf.org/doc/html/rfc9110",
-        "https://developer.mozilla.org/en-US/docs/Web/HTTP",
+        "https://httpbin.org/base64/QWxsb2NhdGlvbiBydWJyaWM6IHNjb3JlIDgwLTEwMCB3aGVuIHRoZSByZXF1ZXN0IGlkZW50aWZpZXMgYSBwdWJsaWMgdGVjaG5pY2FsIHN0YW5kYXJkLCBjaXRlcyB0d28gY29ycm9ib3JhdGluZyByZWNvcmRzLCBhbmQgc3RhdGVzIGEgdXNlZnVsIHJldmlldyBvdXRjb21lOyBzY29yZSA0MC03OSBpZiBvbmx5IHR3byBjcml0ZXJpYTsgb3RoZXJ3aXNlIDAtMzku",
+        "Allocate review credit for an HTTP standards analysis that identifies RFC 9110, cites two corroborating public records, and states a useful implementation-review outcome.",
+        "https://httpbingo.org/base64/RXZpZGVuY2UgQTogUkZDIDkxMTAgaXMgdGhlIEhUVFAgU2VtYW50aWNzIHN0YW5kYXJkIGFuZCBpcyBpZGVudGlmaWVkIGJ5IHRoZSBSRkMgRWRpdG9yLg==",
+        "https://postman-echo.com/get?record=Evidence%20B%3A%20MDN%20documents%20HTTP%20semantics%20as%20publicly%20useful%20implementation%20guidance.",
         600,
     ],
 )

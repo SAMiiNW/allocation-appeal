@@ -4,7 +4,7 @@ AllocationAppeal scores a request against a frozen public rubric and two indepen
 
 The duration must be between ten minutes and 30 days. Once scoring succeeds, the lifecycle becomes `APPEAL_OPEN`; only the named subject may appeal during the entire fresh window. Anyone may resolve an unappealed or appealed case strictly after the deadline, preventing an absent filer from trapping the lifecycle.
 
-Validators independently fetch the rubric and both evidence records, bind SHA-256 digests, and verify the exact score and stored reasons. Duplicate IDs, repeated source hosts, unauthorized appeals, early resolution, late appeals, invalid transitions, and forged validator results are rejected.
+Validators independently fetch the rubric and both evidence records, bind SHA-256 digests, and strictly verify that the proposed score reasonably applies the frozen rubric and that every stored reason is attributable to the records. Duplicate IDs, repeated source hosts, unauthorized appeals, early resolution, late appeals, invalid transitions, and malformed validator candidates are rejected.
 
 ## Verification
 
@@ -25,7 +25,7 @@ The named subject is the only party that can call `appeal_score`, and only befor
 
 ## Evidence record
 
-Validators independently retrieve the rubric and evidence. They must agree on the precise integer score, ordered reasons, and content digests before state changes. The contract rejects duplicate IDs, invalid addresses, malformed URLs, non-distinct source hosts, out-of-range scores, late appeals, and unauthorized appeals.
+Validators independently retrieve the rubric and evidence. They verify the bounded score and attributed reasons against content digests before state changes. The contract rejects duplicate IDs, invalid addresses, malformed URLs, non-distinct source hosts, out-of-range scores, late appeals, and unauthorized appeals.
 
 ## Case references
 
@@ -34,4 +34,6 @@ PYTHONUTF8=1 genvm-lint contracts/contract.py
 python -m pytest -q
 ```
 
-StudioNet: [`0x3CFdB6e2b30Fe58e9dBc69A1149CD545bfae0A88`](https://explorer-studio.genlayer.com/address/0x3CFdB6e2b30Fe58e9dBc69A1149CD545bfae0A88)
+StudioNet: [`0xdbCb434bb043C739344417bb4f0E2a965BB7922b`](https://explorer-studio.genlayer.com/address/0xdbCb434bb043C739344417bb4f0E2a965BB7922b)
+
+Verified live case `AA-1789399075` opened a fresh 600-second appeal window only after scoring, then accepted the named subject's appeal without changing that deadline. See `deployment.json` and `network-run.json` for the three finalized transaction hashes and both canonical readbacks.

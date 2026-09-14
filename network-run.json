@@ -1,0 +1,60 @@
+{
+  "caseId": "AA-1789399075",
+  "transactions": {
+    "file": "0x0972002782f47ebc27c0aff676e761cc70d9cfcdc4607c68043e091cbea3d6b7",
+    "score": "0xfc6a4e4972034306d7baa832683f9efd95b2dfe920c919c7dbab2767cb7896ea",
+    "appeal": "0x99a97c7a9ad8b31091a64eb9c54de0b0013b56a9963dadc9f65c9d14b69a109a"
+  },
+  "afterScore": {
+    "appeal": "",
+    "appeal_deadline": 1789399713,
+    "appeal_window": 600,
+    "digests": [
+      "569bda7c30203489945752f792cf4ff5ab19fd0a45c3ef134b36a19f0ba3db06",
+      "81577ea5dbdc9af011682ab508c2c7b00a6679c997880acc9b14e56fee451276",
+      "d438c9af2fb597593f62d55dfdb3a68baaf46943ca047b859136e5f0502546f5"
+    ],
+    "evidence": [
+      "https://httpbingo.org/base64/RXZpZGVuY2UgQTogUkZDIDkxMTAgaXMgdGhlIEhUVFAgU2VtYW50aWNzIHN0YW5kYXJkIGFuZCBpcyBpZGVudGlmaWVkIGJ5IHRoZSBSRkMgRWRpdG9yLg==",
+      "https://postman-echo.com/get?record=Evidence%20B%3A%20MDN%20documents%20HTTP%20semantics%20as%20publicly%20useful%20implementation%20guidance."
+    ],
+    "id": "AA-1789399075",
+    "reasons": [
+      "The request identifies a public technical standard (RFC 9110).",
+      "The request cites two corroborating public records (Evidence A and Evidence B).",
+      "The request states a useful implementation-review outcome regarding HTTP standards analysis.",
+      "Per the rubric in index 0, meeting all three criteria results in a score between 80-100."
+    ],
+    "request": "Allocate review credit for an HTTP standards analysis that identifies RFC 9110, cites two corroborating public records, and states a useful implementation-review outcome.",
+    "rubric": "https://httpbin.org/base64/QWxsb2NhdGlvbiBydWJyaWM6IHNjb3JlIDgwLTEwMCB3aGVuIHRoZSByZXF1ZXN0IGlkZW50aWZpZXMgYSBwdWJsaWMgdGVjaG5pY2FsIHN0YW5kYXJkLCBjaXRlcyB0d28gY29ycm9ib3JhdGluZyByZWNvcmRzLCBhbmQgc3RhdGVzIGEgdXNlZnVsIHJldmlldyBvdXRjb21lOyBzY29yZSA0MC03OSBpZiBvbmx5IHR3byBjcml0ZXJpYTsgb3RoZXJ3aXNlIDAtMzku",
+    "score": 100,
+    "state": "APPEAL_OPEN",
+    "subject": "0xCAFA30BF94D4fb01146588a1b7901BD85E7DbD0f"
+  },
+  "state": {
+    "appeal": "Please reconsider the score using both cited evidence records and the frozen rubric.",
+    "appeal_deadline": 1789399713,
+    "appeal_window": 600,
+    "digests": [
+      "569bda7c30203489945752f792cf4ff5ab19fd0a45c3ef134b36a19f0ba3db06",
+      "81577ea5dbdc9af011682ab508c2c7b00a6679c997880acc9b14e56fee451276",
+      "d438c9af2fb597593f62d55dfdb3a68baaf46943ca047b859136e5f0502546f5"
+    ],
+    "evidence": [
+      "https://httpbingo.org/base64/RXZpZGVuY2UgQTogUkZDIDkxMTAgaXMgdGhlIEhUVFAgU2VtYW50aWNzIHN0YW5kYXJkIGFuZCBpcyBpZGVudGlmaWVkIGJ5IHRoZSBSRkMgRWRpdG9yLg==",
+      "https://postman-echo.com/get?record=Evidence%20B%3A%20MDN%20documents%20HTTP%20semantics%20as%20publicly%20useful%20implementation%20guidance."
+    ],
+    "id": "AA-1789399075",
+    "reasons": [
+      "The request identifies a public technical standard (RFC 9110).",
+      "The request cites two corroborating public records (Evidence A and Evidence B).",
+      "The request states a useful implementation-review outcome regarding HTTP standards analysis.",
+      "Per the rubric in index 0, meeting all three criteria results in a score between 80-100."
+    ],
+    "request": "Allocate review credit for an HTTP standards analysis that identifies RFC 9110, cites two corroborating public records, and states a useful implementation-review outcome.",
+    "rubric": "https://httpbin.org/base64/QWxsb2NhdGlvbiBydWJyaWM6IHNjb3JlIDgwLTEwMCB3aGVuIHRoZSByZXF1ZXN0IGlkZW50aWZpZXMgYSBwdWJsaWMgdGVjaG5pY2FsIHN0YW5kYXJkLCBjaXRlcyB0d28gY29ycm9ib3JhdGluZyByZWNvcmRzLCBhbmQgc3RhdGVzIGEgdXNlZnVsIHJldmlldyBvdXRjb21lOyBzY29yZSA0MC03OSBpZiBvbmx5IHR3byBjcml0ZXJpYTsgb3RoZXJ3aXNlIDAtMzku",
+    "score": 100,
+    "state": "APPEALED",
+    "subject": "0xCAFA30BF94D4fb01146588a1b7901BD85E7DbD0f"
+  }
+}
