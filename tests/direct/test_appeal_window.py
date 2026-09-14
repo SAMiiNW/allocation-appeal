@@ -70,9 +70,10 @@ def test_appeal_window_bounds_and_forged_score(direct_vm, direct_deploy, direct_
         contract.file_allocation('long', f'0x{direct_alice.hex()}', RUBRIC, REQUEST, SOURCE_A, SOURCE_B, 2592001)
     contract.file_allocation('alloc-1', f'0x{direct_alice.hex()}', RUBRIC, REQUEST, SOURCE_A, SOURCE_B, 600)
     mocks(direct_vm)
+    direct_vm.mock_llm(r'.*AllocationAppeal verifier.*', '{"valid":true}')
     case = contract.cases['ALLOC-1']
     result = contract._score(case)
     assert direct_vm.run_validator(leader_result=result) is True
     forged = dict(result)
-    forged['score'] = 81
+    forged['score'] = 101
     assert direct_vm.run_validator(leader_result=forged) is False
