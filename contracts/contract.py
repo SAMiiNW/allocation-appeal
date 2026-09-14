@@ -9,14 +9,14 @@ def now():return int(datetime.now(timezone.utc).timestamp())
 def s(v,n=1200):return str(v).strip()[:n]
 def u(v):
  p=urlsplit(s(v,500))
- if p.scheme!='https' or not p.hostname or not p.path or p.username or p.password:raise gl.vm.UserError('[EXPECTED] HTTPS evidence required')
- return p.hostname.lower(),s(v,500)
+ if p.scheme.lower()!='https' or not p.hostname or not p.path or p.username or p.password or p.fragment:raise gl.vm.UserError('[EXPECTED] HTTPS evidence required')
+ return p.hostname.lower().rstrip('.'),s(v,500)
 def j(v):
  if isinstance(v,dict):return v
  x=str(v);return json.loads(x[x.find('{'):x.rfind('}')+1])
 @allow_storage
 @dataclass
-class Appeal: subject:Address; rubric:str; request:str; evidence:str; appeal_deadline:u256; state:str; score:u256; reasons:str; appeal:str; digests:str
+class Appeal: subject:Address; rubric:str; request:str; evidence:str; appeal_window:u256; appeal_deadline:u256; state:str; score:u256; reasons:str; appeal:str; digests:str
 class AllocationAppeal(gl.Contract):
  cases:TreeMap[str,Appeal]
  def __init__(self):pass
@@ -27,14 +27,12 @@ class AllocationAppeal(gl.Contract):
  @gl.public.write
  def file_allocation(self,i:str,subject:str,rubric_url:str,request:str,source_a:str,source_b:str,appeal_seconds:u256)->None:
   k=s(i,64).upper();ru=u(rubric_url);a=u(source_a);b=u(source_b)
-  if not k or k in self.cases or len(s(request))<40 or len({ru[0],a[0],b[0]})!=3 or int(appeal_seconds)<600:raise gl.vm.UserError('[EXPECTED] complete independent allocation required')
+  window=int(appeal_seconds)
+  if not k or k in self.cases or len(s(request))<40 or len({ru[0],a[0],b[0]})!=3 or window<600 or window>2592000:raise gl.vm.UserError('[EXPECTED] complete independent allocation required')
   try:who=Address(subject)
   except:raise gl.vm.UserError('[EXPECTED] valid subject required')
-  self.cases[k]=Appeal(who,ru[1],s(request),json.dumps([a[1],b[1]]),now()+int(appeal_seconds),'FILED',0,'[]','','[]')
- @gl.public.write
- def score_allocation(self,i:str)->None:
-  _,c=self._get(i)
-  if c.state!='FILED':raise gl.vm.UserError('[EXPECTED] filed allocation required')
+  self.cases[k]=Appeal(who,ru[1],s(request),json.dumps([a[1],b[1]]),u256(window),u256(0),'FILED',0,'[]','','[]')
+ def _score(self,c):
   def run():
    links=[c.rubric]+json.loads(c.evidence);rows=[];ds=[]
    for n,l in enumerate(links):
@@ -51,17 +49,22 @@ class AllocationAppeal(gl.Contract):
    try:mine=run();theirs=leader.calldata
    except:return False
    return isinstance(leader,gl.vm.Return) and mine['score']==theirs.get('score') and mine['reasons']==theirs.get('reasons') and mine['digests']==theirs.get('digests')
-  d=gl.vm.run_nondet_unsafe(run,valid);c.score=d['score'];c.reasons=json.dumps(d['reasons']);c.digests=json.dumps(d['digests']);c.state='APPEAL_OPEN'
+  return gl.vm.run_nondet_unsafe(run,valid)
+ @gl.public.write
+ def score_allocation(self,i:str)->None:
+  k,c=self._get(i)
+  if c.state!='FILED':raise gl.vm.UserError('[EXPECTED] filed allocation required')
+  d=self._score(c);c.score=d['score'];c.reasons=json.dumps(d['reasons']);c.digests=json.dumps(d['digests']);c.appeal_deadline=u256(now()+int(c.appeal_window));c.state='APPEAL_OPEN';self.cases[k]=c
  @gl.public.write
  def appeal_score(self,i:str,statement:str)->None:
-  _,c=self._get(i)
+  k,c=self._get(i)
   if c.state!='APPEAL_OPEN' or gl.message.sender_address!=c.subject or now()>c.appeal_deadline or len(s(statement))<30:raise gl.vm.UserError('[EXPECTED] timely subject appeal required')
-  c.appeal=s(statement);c.state='APPEALED'
+  c.appeal=s(statement);c.state='APPEALED';self.cases[k]=c
  @gl.public.write
  def resolve_allocation(self,i:str)->None:
-  _,c=self._get(i)
+  k,c=self._get(i)
   if c.state not in ('APPEAL_OPEN','APPEALED') or now()<=c.appeal_deadline:raise gl.vm.UserError('[EXPECTED] closed appeal window required')
-  c.state='RESOLVED'
+  c.state='RESOLVED';self.cases[k]=c
  @gl.public.view
  def get_allocation(self,i:str)->dict:
-  k,c=self._get(i);return {'id':k,'subject':c.subject.as_hex,'rubric':c.rubric,'request':c.request,'evidence':json.loads(c.evidence),'appeal_deadline':int(c.appeal_deadline),'state':c.state,'score':int(c.score),'reasons':json.loads(c.reasons),'appeal':c.appeal,'digests':json.loads(c.digests)}
+  k,c=self._get(i);return {'id':k,'subject':c.subject.as_hex,'rubric':c.rubric,'request':c.request,'evidence':json.loads(c.evidence),'appeal_window':int(c.appeal_window),'appeal_deadline':int(c.appeal_deadline),'state':c.state,'score':int(c.score),'reasons':json.loads(c.reasons),'appeal':c.appeal,'digests':json.loads(c.digests)}

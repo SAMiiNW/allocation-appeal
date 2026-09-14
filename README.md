@@ -1,5 +1,18 @@
 # AllocationAppeal
 
+AllocationAppeal scores a request against a frozen public rubric and two independently hosted records. The appeal duration is fixed when the case is filed, but the deadline is created only after scoring finalizes. Delayed scoring therefore cannot consume or eliminate the subject's protected appeal opportunity.
+
+The duration must be between ten minutes and 30 days. Once scoring succeeds, the lifecycle becomes `APPEAL_OPEN`; only the named subject may appeal during the entire fresh window. Anyone may resolve an unappealed or appealed case strictly after the deadline, preventing an absent filer from trapping the lifecycle.
+
+Validators independently fetch the rubric and both evidence records, bind SHA-256 digests, and verify the exact score and stored reasons. Duplicate IDs, repeated source hosts, unauthorized appeals, early resolution, late appeals, invalid transitions, and forged validator results are rejected.
+
+## Verification
+
+```bash
+genvm-lint contracts/contract.py
+python -m pytest -q
+```
+
 > **CASE FILE AA-01** · A score is not final while the subject still has a right to contest it.
 
 AllocationAppeal separates scoring from finality. It freezes a public rubric, one allocation request, and two separately hosted evidence records; GenLayer validators compute the exact score and reasons, but the score deliberately opens an appeal window instead of immediately closing the case.
